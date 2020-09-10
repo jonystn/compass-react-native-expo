@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from "react";
+import { Text, View, Animated, Easing } from "react-native";
+import Compass from "./components/Compass";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class App extends Component {
+  state = {
+    fadeAnim: new Animated.Value(0),
+  };
+
+  componentDidMount() {
+    // Fade in on app launch
+    Animated.timing(this.state.fadeAnim, {
+      toValue: 1,
+      duration: 1200,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  render() {
+    return (
+      <Animated.View
+        style={{
+          flex: 1,
+          backgroundColor: "#ecedef",
+          opacity: this.state.fadeAnim,
+        }}
+      >
+        <Compass />
+      </Animated.View>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
